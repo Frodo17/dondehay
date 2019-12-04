@@ -38,11 +38,6 @@ export default class SideBar extends Component {
           style={{ height: 115, width: "100%" }}
         />
         <Menu.Item
-          onPress={() => this.props.navigation.navigate("Finder")}
-          title="Localizador"
-          icon="search"
-        />
-        <Menu.Item
           onPress={() => this.props.navigation.navigate("BarScan")}
           title="Chequeaor de Precios"
           icon={() => (
@@ -104,33 +99,6 @@ export default class SideBar extends Component {
           <View style={{ width: "80%" }}>
             <Menu.Item
               onPress={() => {}}
-              title="Productos Rebajados"
-              icon={() => (
-                <MaterialCommunityIcons name={"octagram"} size={25} />
-              )}
-            />
-          </View>
-          <View
-            style={{
-              width: "20%",
-              alignContent: "center",
-              justifyContent: "center"
-            }}
-          >
-            <Switch
-              value={this.props.screenProps.rebajados}
-              onValueChange={() =>
-                this.props.screenProps.setRebajados(
-                  !this.props.screenProps.rebajados
-                )
-              }
-            />
-          </View>
-        </View>
-        <View style={{ flexDirection: "row", paddingRight: 3 }}>
-          <View style={{ width: "80%" }}>
-            <Menu.Item
-              onPress={() => {}}
               title="Tiendas en MLC"
               icon={() => (
                 <MaterialCommunityIcons name={"shopping"} size={25} />
@@ -149,6 +117,7 @@ export default class SideBar extends Component {
               onValueChange={() => {
                 this.props.screenProps.setMLC(!this.props.screenProps.isMLC);
                 this.props.screenProps.setFilterUpdated(true);
+                this.props.navigation.closeDrawer();
               }}
             />
           </View>
@@ -168,17 +137,53 @@ export default class SideBar extends Component {
           title="Número Único"
           icon="call"
         />
-        <Menu.Item
-          onPress={() => Linking.openURL("http://www.cimex.cu")}
-          title="Sitio Web"
-          icon={() => <MaterialCommunityIcons name={"web"} size={25} />}
-        />
         <Divider />
+
         <Menu.Item
           onPress={() => this.props.navigation.navigate("Info")}
           title="Información al Usuario"
           icon="info"
         />
+        {this.props.screenProps.newUpdate ? (
+          <Menu.Item
+            onPress={() =>
+              Linking.openURL(
+                "http://dhayservice.cimex.com.cu:1703/apk/dondehay-" +
+                  this.props.screenProps.newVersion +
+                  ".apk"
+              )
+            }
+            title="Actualizar Aplicación"
+            icon={() => (
+              <MaterialCommunityIcons
+                name={"progress-download"}
+                size={25}
+                color={"green"}
+              />
+            )}
+          />
+        ) : (
+          <Menu.Item
+            onPress={() => {
+              this.props.navigation.closeDrawer();
+              Alert.alert(
+                "Actualizar",
+                "No hay actualizaciones disponibles. Su aplicación se encuentra actualizada.",
+                [
+                  {
+                    text: "Cerrar",
+                    style: "cancel"
+                  }
+                ]
+              );
+            }}
+            title="Actualizar Aplicación"
+            icon={() => (
+              <MaterialCommunityIcons name={"progress-download"} size={25} />
+            )}
+          />
+        )}
+
         <Menu.Item
           onPress={() => this.exit_function()}
           title="Salir"

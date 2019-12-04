@@ -213,8 +213,8 @@ export default class DhayStores extends Component {
                              productSelected: this.props.screenProps
                                .productSelected
                            });
-                           if (this.props.screenProps.fromSearch===true) {
-                             this.setState({stores:[]})
+                           if (this.props.screenProps.fromSearch === true) {
+                             this.setState({ stores: [] });
                              this.getStores();
                            }
                          }}
@@ -223,7 +223,8 @@ export default class DhayStores extends Component {
                        <ImageBackground
                          source={require("../assets/images/backpana.png")}
                          style={{
-                           resizeMode: "center"
+                           resizeMode: "contain",
+                           flex: 1
                          }}
                        >
                          <View>
@@ -256,7 +257,7 @@ export default class DhayStores extends Component {
                              />
                            </Appbar.Header>
                          </View>
-                         <View style={{ flex: 1, top: 72, left: 1 }}>
+                         <View style={{ flex: 0, top: 75, left: 1 }}>
                            <Snackbar
                              visible={this.state.snackVisible}
                              onDismiss={() =>
@@ -420,19 +421,30 @@ export default class DhayStores extends Component {
                                              alignItems: "center"
                                            }}
                                          >
-                                           {item.mlc == false ? (
+                                           {item.mlc === false &&
+                                             item.es_ocasion === false && (
+                                               <Avatar.Image
+                                                 style={{
+                                                   backgroundColor: "withe"
+                                                 }}
+                                                 source={require("../assets/images/shop.png")}
+                                               />
+                                             )}
+                                           {item.mlc === true &&
+                                             item.es_ocasion === false && (
+                                               <Avatar.Image
+                                                 style={{
+                                                   backgroundColor: "withe"
+                                                 }}
+                                                 source={require("../assets/images/shopusd.png")}
+                                               />
+                                             )}
+                                           {item.es_ocasion && (
                                              <Avatar.Image
                                                style={{
                                                  backgroundColor: "withe"
                                                }}
-                                               source={require("../assets/images/shop.png")}
-                                             />
-                                           ) : (
-                                             <Avatar.Image
-                                               style={{
-                                                 backgroundColor: "withe"
-                                               }}
-                                               source={require("../assets/images/shopusd.png")}
+                                               source={require("../assets/images/tagprice.png")}
                                              />
                                            )}
                                          </View>
@@ -642,7 +654,7 @@ export default class DhayStores extends Component {
                                                              this.state
                                                                .productSelected
                                                                .nombre +
-                                                             ", del cual no hay existencia en el área de venta. Atentamente, un cliente insatisfecho."
+                                                             ", del cual no hay existencia en el área de venta. Atentamente, su Cliente."
                                                          )
                                                        }
                                                      >
@@ -677,6 +689,7 @@ export default class DhayStores extends Component {
                                                      </TouchableOpacity>
                                                    </View>
                                                  ) : null}
+
                                                  <Divider />
                                                  {item.ultima_venta !== null ? (
                                                    <Caption>
@@ -687,11 +700,88 @@ export default class DhayStores extends Component {
                                                      ).fromNow()}
                                                    </Caption>
                                                  ) : (
-                                                   <Caption>
-                                                     Última Venta: Sin registro de ventas
+                                                   <Caption
+                                                     style={{ color: "red" }}
+                                                   >
+                                                     Última Venta: Sin registro
+                                                     de ventas
                                                    </Caption>
                                                  )}
                                                </View>
+                                               {item.cant_areaventa != 0 &&
+                                               item.ultima_venta == null ? (
+                                                 <View
+                                                   style={{
+                                                     flexDirection: "row",
+                                                     paddingBottom: 8,
+                                                     justifyContent: "flex-end"
+                                                   }}
+                                                 >
+                                                   <TouchableOpacity
+                                                     style={{
+                                                       width: 40,
+                                                       height: 40,
+                                                       backgroundColor:
+                                                         "orange",
+                                                       borderRadius: 8,
+                                                       alignItems: "center",
+                                                       justifyContent: "center"
+                                                     }}
+                                                     onPress={() =>
+                                                       Linking.openURL(
+                                                         'mailto:"atencionalcliente@cimex.com.cu"?subject=Mercancía sin ventas registradas&body=Reporto en el establecimiento ' +
+                                                           item.nombre +
+                                                           " ubicado en " +
+                                                           item.direccion +
+                                                           ", " +
+                                                           item.provincia +
+                                                           ", " +
+                                                           item.municipio +
+                                                           "," +
+                                                           " posee una existencia en el Área de Venta de " +
+                                                           item.cant_areaventa +
+                                                           " " +
+                                                           this.state
+                                                             .productSelected
+                                                             .unidad_medida +
+                                                           " del producto " +
+                                                           this.state
+                                                             .productSelected
+                                                             .nombre +
+                                                           ", del cual no se han efectuado ventas en dicho establecimiento. Atentamente, su Cliente."
+                                                       )
+                                                     }
+                                                   >
+                                                     <MaterialCommunityIcons
+                                                       name="email"
+                                                       color={"white"}
+                                                       size={20}
+                                                     />
+                                                   </TouchableOpacity>
+                                                   <TouchableOpacity
+                                                     style={{
+                                                       width: 40,
+                                                       height: 40,
+                                                       backgroundColor: "red",
+                                                       borderRadius: 8,
+                                                       alignItems: "center",
+                                                       justifyContent: "center",
+                                                       marginLeft: 3
+                                                     }}
+                                                     onPress={() =>
+                                                       Linking.openURL(
+                                                         `tel:80000724`
+                                                       )
+                                                     }
+                                                   >
+                                                     <MaterialCommunityIcons
+                                                       name="phone"
+                                                       color={"white"}
+                                                       size={20}
+                                                     />
+                                                   </TouchableOpacity>
+                                                 </View>
+                                               ) : null}
                                                <Caption>
                                                  Actualizado:{" "}
                                                  {moment(

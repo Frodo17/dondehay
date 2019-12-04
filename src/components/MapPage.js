@@ -141,7 +141,7 @@ export default class MapPage extends Component {
             <WebView
               source={{
                 uri:
-                  "http://10.0.3.2/maperick/map.html?lat=" +
+                  "http://dhayservice.cimex.com.cu:1702/maphay?lat=" +
                   parseFloat(
                     this.props.screenProps.storeSelected.x_coordenada
                   ) +

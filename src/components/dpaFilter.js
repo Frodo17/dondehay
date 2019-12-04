@@ -340,13 +340,6 @@ export default class DpaFilter extends Component {
           <View style={{ padding: 5 }}>
             <Card>
               <Card.Content>
-                <View style={{ flexDirection: "row" }}>
-                  <Icon name="map" size={25} />
-                  <Text style={{ fontWeight: "bold", padding: 5 }}>
-                    Filtro de Municipios
-                  </Text>
-                </View>
-                <Divider />
                 <Text note style={{ textAlign: "auto" }}>
                   En esta sección usted podrá establecer filtros asociados a su
                   provincia o municipio.
@@ -368,7 +361,7 @@ export default class DpaFilter extends Component {
               items={municipios}
               uniqueKey="id"
               subKey="children"
-              selectText="Municipios..."
+              selectText="Provincia/Municipios..."
               showDropDowns={true}
               selectChildren={true}
               readOnlyHeadings={false}

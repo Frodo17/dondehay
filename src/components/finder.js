@@ -5,13 +5,15 @@ import {
   FlatList,
   ImageBackground,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
+  StatusBar
 } from "react-native";
 import { UIActivityIndicator } from "react-native-indicators";
 import AsyncStorage from "@react-native-community/async-storage";
 import NumericInput from "react-native-numeric-input";
-import { NavigationEvents } from "react-navigation";
+import { NavigationEvents, withNavigationFocus } from "react-navigation";
 import Axios from "axios";
+import DropdownAlert from "react-native-dropdownalert";
 import {
   Appbar,
   Searchbar,
@@ -33,7 +35,7 @@ import {
 import Icon from "react-native-vector-icons/MaterialIcons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-export default class Finder extends Component {
+class Finder extends Component {
   constructor(props) {
     super(props);
 
@@ -58,11 +60,24 @@ export default class Finder extends Component {
       snackVisible: false,
       snackColor: "#e74c3c",
       snackText: "Empty",
-      filterUpdated: false
+      filterUpdated: false,
+      currentVersion: this.props.screenProps.currentVersion,
+      newVersion: []
     };
   }
 
-  componentDidMount() {}
+  componentWillMount() {
+    this.getVersion();
+  }
+
+  componentDidUpdate() {
+    if (
+      this.props.screenProps.filterUpdated &&
+      this.state.searchText.length > 0
+    ) {
+      this.getProducts();
+    }
+  }
 
   //busqueda
   searchFilterFunction = text => {
@@ -193,6 +208,84 @@ export default class Finder extends Component {
       });
   }
 
+  async getVersion() {
+    const time = await this.time2fetch();
+
+    Axios({
+      method: "get",
+      url: this.props.screenProps.apiurl + "version",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      timeout: 10000
+    })
+      .then(response => {
+        if (response.data[0].version != this.state.currentVersion) {
+          this.setState({
+            newVersion: response.data[0]
+          });
+          this.props.screenProps.setNewUpdate(true);
+          this.props.screenProps.setNewVersion(this.state.newVersion.version);
+          if (time !== null) {
+            this.dropDownAlertRef.alertWithType(
+              "custom",
+              "Actualización disponible",
+              "Se encuentra disponible la version " +
+                JSON.stringify(this.state.newVersion.version) +
+                " de fecha " +
+                JSON.stringify(this.state.newVersion.fecha) +
+                ". " +
+                JSON.stringify(this.state.newVersion.detalles)
+            );
+          }
+        }
+      })
+      .catch(err => {
+        null;
+      });
+  }
+
+  //Chequea que no sean los ultimos datos antes de pedir mas.
+  evaluateLoadMore() {
+    if (this.state.nextUrl !== null) {
+      this.loadMore();
+    }
+  }
+
+  //Carga los siguientes articulos y los suma al arreglo que se renderea en la lista
+  loadMore() {
+    this.setState({ isFetching: true });
+
+    Axios({
+      method: "get",
+      url: this.state.nextUrl,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      timeout: 10000
+    })
+      .then(response => {
+        const allproducts = [...this.state.products, ...response.data.data];
+        this.setState({
+          pageTo: response.data.to,
+          isFetching: false,
+          nextUrl: response.data.next_page_url,
+          products: allproducts
+        });
+      })
+      .catch(err => {
+        this.setState({ isFetching: false });
+        this.setState({
+          isFetching: false,
+          snackColor: "#e74c3c",
+          snackText: "Se ha perdido lo conexión con el servidor.",
+          snackVisible: true
+        });
+      });
+  }
+
   //Limpia la lista
   clearProductsList() {
     this.setState({ products: [] });
@@ -267,15 +360,12 @@ export default class Finder extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar
+          backgroundColor={this.state.primaryColor}
+          barStyle="light-content"
+        />
         <NavigationEvents
           onDidFocus={payload => {
-            if (
-              this.props.screenProps.filterUpdated &&
-              this.state.searchText.length > 0
-            ) {
-              this.getProducts();
-            }
-
             if (this.props.screenProps.scanned.length > 0) {
               this.setState({ searchText: this.props.screenProps.scanned });
               this.getProducts();
@@ -290,14 +380,17 @@ export default class Finder extends Component {
         <ImageBackground
           source={require("../assets/images/backpana.png")}
           style={{
-            resizeMode: "cover"
+            resizeMode: "contain",
+            flex: 1
           }}
         >
           <View>
             <Appbar.Header style={{ backgroundColor: this.state.primaryColor }}>
               <Appbar.Action
                 icon="menu"
-                onPress={() => this.props.navigation.toggleDrawer()}
+                onPress={() => {
+                  this.props.navigation.toggleDrawer();
+                }}
               />
               <Appbar.Content
                 title="¡Donde Hay!"
@@ -335,7 +428,7 @@ export default class Finder extends Component {
               />
             </View>
           </View>
-          <View style={{ flex: 1, top: 72, left: 1 }}>
+          <View style={{ flex: 0, top: 75, left: 1 }}>
             <Snackbar
               visible={this.state.snackVisible}
               onDismiss={() => this.setState({ snackVisible: false })}
@@ -764,7 +857,7 @@ export default class Finder extends Component {
               onEndReached={() => this.evaluateLoadMore()}
               onEndReachedThreshold={0.2}
               ListFooterComponent={() => {
-                return <View style={{ height: 0, marginBottom: 215 }} />;
+                return <View style={{ height: 0, marginBottom: 100 }} />;
               }}
             />
           </View>
@@ -782,11 +875,18 @@ export default class Finder extends Component {
               onPress={() => this.clearProductsList()}
             />
           ) : null}
+          <DropdownAlert
+            imageSrc={require("../assets/images/app-icon.png")}
+            containerStyle={{ backgroundColor: "#32A54A", elevation: 3 }}
+            ref={ref => (this.dropDownAlertRef = ref)}
+          />
         </ImageBackground>
       </SafeAreaView>
     );
   }
 }
+
+export default withNavigationFocus(Finder);
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -827,7 +927,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     margin: 16,
     right: 0,
-    bottom: 123,
+    bottom: 10,
     backgroundColor: "red"
   }
 });

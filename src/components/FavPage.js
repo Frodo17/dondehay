@@ -6,7 +6,7 @@ import {
   FlatList,
   ImageBackground,
   Alert,
-  Image,
+  SafeAreaView,
   TouchableOpacity,
   Linking
 } from "react-native";
@@ -102,7 +102,7 @@ export default class FavPage extends Component {
     );
 
     return (
-      <View>
+      <SafeAreaView style={{ flex: 1 }}>
         <NavigationEvents
           onDidFocus={payload => {
             this.setState({
@@ -113,7 +113,8 @@ export default class FavPage extends Component {
         <ImageBackground
           source={require("../assets/images/backpana.png")}
           style={{
-            resizeMode: "cover"
+            resizeMode: "contain",
+            flex: 1
           }}
         >
           <View>
@@ -382,7 +383,7 @@ export default class FavPage extends Component {
             />
           </View>
         </ImageBackground>
-      </View>
+      </SafeAreaView>
     );
   }
 }

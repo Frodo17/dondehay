@@ -1,11 +1,17 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, Image, StatusBar, View } from "react-native";
+import { StyleSheet, Image, StatusBar, View } from "react-native";
 import { UIActivityIndicator } from "react-native-indicators";
+import { Text, Paragraph } from "react-native-paper";
 
 export default class SplashScreen extends Component {
+  constructor() {
+    super();
+  }
+
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar backgroundColor="#0D4D29" barStyle="light-content" />
         <StatusBar barStyle="light-content" />
         <View style={styles.logoContainer}>
           <Image

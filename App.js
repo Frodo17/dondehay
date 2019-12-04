@@ -40,7 +40,10 @@ export default class App extends Component {
       isLoading: true,
       appTitle: "¡Donde Hay!",
       filterUpdated: false,
-      fromSearch: false
+      fromSearch: false,
+      newUpdate: false,
+      newVersion: "",
+      currentVersion: "1.4.191203"
     };
   }
 
@@ -153,6 +156,14 @@ export default class App extends Component {
     this.setState({ fromSearch: fromSearch });
   };
 
+  setNewUpdate = newUpdate => {
+    this.setState({ newUpdate: newUpdate });
+  };
+
+  setNewVersion = newVersion => {
+    this.setState({ newVersion: newVersion });
+  };
+
   loadTime = async () => {
     return new Promise(resolve =>
       setTimeout(() => {
@@ -194,7 +205,9 @@ export default class App extends Component {
             setRebajados: this.setRebajados,
             setMLC: this.setMLC,
             setFilterUpdated: this.setFilterUpdated,
-            setFromSearch: this.setFromSearch
+            setFromSearch: this.setFromSearch,
+            setNewUpdate: this.setNewUpdate,
+            setNewVersion: this.setNewVersion
           }}
         />
       </PaperProvider>
