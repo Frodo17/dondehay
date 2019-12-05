@@ -110,7 +110,7 @@ export default class InfoPage extends Component {
                 <Paragraph style={{ padding: 5 }}>
                   En varias secciones de la aplicación hemos puesto a su
                   disposicion un botón para llamar directamente al Número Único
-                  de Atanción al Cliente de Cimex. Estas llamadas serán libres
+                  de Atención al Cliente de Cimex. Estas llamadas serán libres
                   de costo. Su ayuda es necesaria para perfeccionar nuestro
                   trabajo y contribuir al proceso de mejora continua del
                   servicio de la Cadena de Tiendas Panamericanas.

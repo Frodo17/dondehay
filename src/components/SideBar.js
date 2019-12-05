@@ -15,6 +15,8 @@ export default class SideBar extends Component {
     super(props);
   }
 
+  componentDidMount() {}
+
   exit_function = () => {
     Alert.alert(
       "Alerta",
@@ -39,7 +41,7 @@ export default class SideBar extends Component {
         />
         <Menu.Item
           onPress={() => this.props.navigation.navigate("BarScan")}
-          title="Chequeaor de Precios"
+          title="Chequeador de Precios"
           icon={() => (
             <MaterialCommunityIcons name={"barcode-scan"} size={25} />
           )}
@@ -146,13 +148,12 @@ export default class SideBar extends Component {
         />
         {this.props.screenProps.newUpdate ? (
           <Menu.Item
-            onPress={() =>
+            onPress={() => {
               Linking.openURL(
-                "http://dhayservice.cimex.com.cu:1703/apk/dondehay-" +
-                  this.props.screenProps.newVersion +
-                  ".apk"
-              )
-            }
+                "https://www.apklis.cu/application/com.datacimex.dondehay"
+              );
+              alert(this.props.screenProps.downloadURL);
+            }}
             title="Actualizar Aplicación"
             icon={() => (
               <MaterialCommunityIcons

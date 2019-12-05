@@ -891,7 +891,7 @@ export default class DhayStores extends Component {
                              ListFooterComponent={() => {
                                return (
                                  <View
-                                   style={{ height: 0, marginBottom: 110 }}
+                                   style={{ height: 0, marginBottom: 55 }}
                                  />
                                );
                              }}

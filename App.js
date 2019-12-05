@@ -10,6 +10,7 @@ import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { createAppContainer } from "react-navigation";
 import AsyncStorage from "AsyncStorage";
+import Axios from "axios";
 import { Provider as PaperProvider } from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import SplashScreen from "./src/components/splash";
@@ -43,7 +44,9 @@ export default class App extends Component {
       fromSearch: false,
       newUpdate: false,
       newVersion: "",
-      currentVersion: "1.4.191203"
+      currentVersion: "1.4.191201",
+      hashApklis: "",
+      downloadURL: ""
     };
   }
 
@@ -56,6 +59,7 @@ export default class App extends Component {
     this.loadPriceFilter();
     this.loadDpaFilter();
     this.loadFavoritos();
+    this.getHashApklis();
   }
 
   loadFavoritos = async () => {
@@ -106,6 +110,62 @@ export default class App extends Component {
     } catch (error) {
       alert(error);
     }
+  };
+
+  async getHashApklis() {
+    Axios({
+      method: "get",
+      url:
+        "https://api.apklis.cu/v2/application/?package_name=com.datacimex.dondehay",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      timeout: 10000
+    })
+      .then(response => {
+        this.setState({
+          hashApklis: response.data.results[0].last_release.sha256
+        });
+        this.getUrlApklis();
+      })
+      .catch(err => {
+        null;
+      });
+  }
+
+  async getUrlApklis() {
+    const time = await this.time2fetch();
+    if (time !== null) {
+      Axios({
+        method: "post",
+        url: "https://api.apklis.cu/v2/release/get_url/",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        data: {
+          release: this.state.hashApklis
+        },
+        timeout: 10000
+      })
+        .then(response => {
+          this.setState({
+            downloadURL: response.data.url
+          });
+        })
+        .catch(err => {
+          null;
+        });
+    }
+  }
+
+  time2fetch = async () => {
+    return new Promise(resolve =>
+      setTimeout(() => {
+        resolve("result");
+      }, 1000)
+    );
   };
 
   setFavorito = favoritos => {
