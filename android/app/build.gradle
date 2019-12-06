@@ -105,8 +105,8 @@ android {
         applicationId "com.datacimex.dondehay"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 8
-        versionName "1.4.191203"
+        versionCode 10
+        versionName "1.4.191206"
         missingDimensionStrategy 'react-native-camera', 'mlkit'
         multiDexEnabled true
     }

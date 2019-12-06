@@ -44,7 +44,7 @@ export default class App extends Component {
       fromSearch: false,
       newUpdate: false,
       newVersion: "",
-      currentVersion: "1.4.191201",
+      currentVersion: "1.4.191206",
       hashApklis: "",
       downloadURL: ""
     };

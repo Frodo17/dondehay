@@ -635,7 +635,7 @@ export default class DhayStores extends Component {
                                                        }}
                                                        onPress={() =>
                                                          Linking.openURL(
-                                                           'mailto:"atencionalcliente@cimex.com.cu"?subject=Mercancía no representada&body=Reporto en el establecimiento ' +
+                                                           'mailto:"atencionalcliente@cimex.com.cu"?subject=Mercancía no representada&body=Reporto que el establecimiento ' +
                                                              item.nombre +
                                                              " ubicado en " +
                                                              item.direccion +
@@ -691,7 +691,7 @@ export default class DhayStores extends Component {
                                                  ) : null}
 
                                                  <Divider />
-                                                 {item.ultima_venta !== null ? (
+                                                 {item.ultima_venta !== "1900-01-01" ? (
                                                    <Caption>
                                                      Última Venta:{" "}
                                                      {moment(
@@ -709,7 +709,7 @@ export default class DhayStores extends Component {
                                                  )}
                                                </View>
                                                {item.cant_areaventa != 0 &&
-                                               item.ultima_venta == null ? (
+                                               item.ultima_venta == "1900-01-01" ? (
                                                  <View
                                                    style={{
                                                      flexDirection: "row",
@@ -729,7 +729,7 @@ export default class DhayStores extends Component {
                                                      }}
                                                      onPress={() =>
                                                        Linking.openURL(
-                                                         'mailto:"atencionalcliente@cimex.com.cu"?subject=Mercancía sin ventas registradas&body=Reporto en el establecimiento ' +
+                                                         'mailto:"atencionalcliente@cimex.com.cu"?subject=Mercancía sin ventas registradas&body=Reporto que el establecimiento ' +
                                                            item.nombre +
                                                            " ubicado en " +
                                                            item.direccion +
@@ -748,7 +748,7 @@ export default class DhayStores extends Component {
                                                            this.state
                                                              .productSelected
                                                              .nombre +
-                                                           ", del cual no se han efectuado ventas en dicho establecimiento. Atentamente, su Cliente."
+                                                           ", del cual no se han efectuado ventas. Atentamente, su Cliente."
                                                        )
                                                      }
                                                    >

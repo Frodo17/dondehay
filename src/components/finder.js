@@ -6,7 +6,8 @@ import {
   ImageBackground,
   TouchableOpacity,
   SafeAreaView,
-  StatusBar
+  StatusBar,
+  Image
 } from "react-native";
 import { UIActivityIndicator } from "react-native-indicators";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -439,7 +440,10 @@ class Finder extends Component {
           </View>
           <View>
             <Portal>
-              <Modal visible={this.state.modalImageVisible}>
+              <Modal
+                onDismiss={() => this.setState({ modalImageVisible: false })}
+                visible={this.state.modalImageVisible}
+              >
                 <View style={{ margin: 20 }}>
                   <Card>
                     <Card.Content>
@@ -448,16 +452,17 @@ class Finder extends Component {
                       </Subheading>
                       <Divider />
                     </Card.Content>
-                    <Card.Cover
-                      style={{
-                        height: "80%",
-                        resizeMode: "stretch"
-                      }}
+                    <Image
                       source={{
                         uri:
                           "http://dhayservice.cimex.com.cu:1702/images/" +
                           this.state.productSelected.imagen +
                           ".jpg"
+                      }}
+                      style={{
+                        height: 300,
+                        width: 300,
+                        resizeMode: "contain"
                       }}
                     />
                     <Divider />
@@ -496,7 +501,12 @@ class Finder extends Component {
           </View>
           <View>
             <Portal>
-              <Modal visible={this.props.screenProps.modalPrecios}>
+              <Modal
+                onDismiss={() =>
+                  this.props.screenProps.setPreciosVisible(false)
+                }
+                visible={this.props.screenProps.modalPrecios}
+              >
                 <View style={{ margin: 20 }}>
                   <Card>
                     <Card.Content>
@@ -784,14 +794,6 @@ class Finder extends Component {
                               <TouchableOpacity
                                 style={styles.cardButton}
                                 onPress={() => {
-                                  let favoritosIds = [];
-                                  let MisFavoritos = this.props.screenProps
-                                    .favoritos;
-
-                                  MisFavoritos.forEach(function(prod) {
-                                    favoritosIds.push(JSON.stringify(prod.id));
-                                  });
-
                                   if (
                                     !favoritosIds.includes(
                                       JSON.stringify(item.id)
@@ -805,18 +807,15 @@ class Finder extends Component {
 
                                     this.storeFavoritos();
                                   } else {
-                                    var ind = this.state.favoritos.indexOf(
-                                      item
-                                    );
+                                    var ind = MisFavoritos.indexOf(item);
                                     this.setState({
                                       productSelected: item
                                     });
                                     //this.deleteFavorito(selected);
-                                    this.state.favoritos.splice(ind, 1);
+                                    MisFavoritos.splice(ind, 1);
                                     this.props.screenProps.setFavorito(
-                                      this.state.favoritos
+                                      MisFavoritos
                                     );
-                                    item.heartColor = "gray";
                                     this.storeFavoritos();
                                   }
                                 }}

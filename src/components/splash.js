@@ -12,7 +12,6 @@ export default class SplashScreen extends Component {
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="#0D4D29" barStyle="light-content" />
-        <StatusBar barStyle="light-content" />
         <View style={styles.logoContainer}>
           <Image
             resizeMode="contain"
