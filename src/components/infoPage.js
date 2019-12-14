@@ -67,7 +67,7 @@ export default class InfoPage extends Component {
                   Version: {this.props.screenProps.currentVersion}
                 </Paragraph>
                 <Paragraph style={{ padding: 5 }}>
-                  ¡DondeHay! es el localizador de productos de la Cadena de
+                  ¡Donde Hay! es el localizador de productos de la Cadena de
                   Tiendas Panamericanas.
                 </Paragraph>
                 <Paragraph style={{ padding: 5 }}>
@@ -82,7 +82,7 @@ export default class InfoPage extends Component {
                   será libre de costos.
                 </Paragraph>
                 <Paragraph style={{ padding: 5 }}>
-                  Los datos que muestra ¡DondeHay! son obtenidos de la
+                  Los datos que muestra ¡Donde Hay! son obtenidos de la
                   información tributada por los establecimientos de manera
                   automática al hacer el cierre de sus inventarios. El proceso
                   de carga corre cada una hora, lo que garantiza que la
@@ -115,7 +115,7 @@ export default class InfoPage extends Component {
                   trabajo y contribuir al proceso de mejora continua del
                   servicio de la Cadena de Tiendas Panamericanas.
                 </Paragraph>
-                <Paragraph>
+                <Paragraph style={{ padding: 5 }}>
                   También se encuentra disponible un botón para la comunicación
                   mediante correo electrónico con atención al clinte de la
                   Cadena de Tiendas Panamericanas. Este botón funcionará si
@@ -124,11 +124,11 @@ export default class InfoPage extends Component {
                   de pagos por lo que le será cobrado por el proveedor de
                   servicios de internet (ETECSA) según sus tarifas.
                 </Paragraph>
-                <Paragraph>
+                <Paragraph style={{ padding: 5 }}>
                   Sea parte de nuestro equipo, reporte las indisciplinas que
-                  detecte durante el uso de la aplicación.
+                  detecte durante el uso de la aplicación
                 </Paragraph>
-                <Paragraph>GRACIAS</Paragraph>
+                <Paragraph style={{ padding: 5 }}>GRACIAS</Paragraph>
               </Card.Content>
               <Divider />
             </Card>
