@@ -44,9 +44,7 @@ export default class App extends Component {
       fromSearch: false,
       newUpdate: false,
       newVersion: "",
-      currentVersion: "1.4.191214",
-      hashApklis: "",
-      downloadURL: ""
+      currentVersion: "1.4.191214"
     };
   }
 
@@ -111,54 +109,6 @@ export default class App extends Component {
       alert(error);
     }
   };
-
-  async getHashApklis() {
-    Axios({
-      method: "get",
-      url:
-        "https://api.apklis.cu/v2/application/?package_name=com.datacimex.dondehay",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      timeout: 10000
-    })
-      .then(response => {
-        this.setState({
-          hashApklis: response.data.results[0].last_release.sha256
-        });
-        this.getUrlApklis();
-      })
-      .catch(err => {
-        null;
-      });
-  }
-
-  async getUrlApklis() {
-    const time = await this.time2fetch();
-    if (time !== null) {
-      Axios({
-        method: "post",
-        url: "https://api.apklis.cu/v2/release/get_url/",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        data: {
-          release: this.state.hashApklis
-        },
-        timeout: 10000
-      })
-        .then(response => {
-          this.setState({
-            downloadURL: response.data.url
-          });
-        })
-        .catch(err => {
-          null;
-        });
-    }
-  }
 
   time2fetch = async () => {
     return new Promise(resolve =>
