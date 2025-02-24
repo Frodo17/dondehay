@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { createAppContainer } from "react-navigation";
@@ -24,8 +16,6 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      //apiurl: "http://10.0.3.2:8000/api/",
-      //apiurl: "http://192.168.43.102:8000/api/",
       apiurl: "http://dhayservice.cimex.com.cu:1703/api/",
       favoritos: [],
       scanned: "",
