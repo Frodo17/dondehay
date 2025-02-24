@@ -57,3 +57,6 @@ DondeHay es una aplicación móvil para ayudar a los usuarios en Cuba a localiza
 
 - La información se actualizaba diariamente, con un desfase de 12 a 24 horas a partir del sistema contable de CIMEX.
 - Posterior al ataque informático a CIMEX el 26 de enero de 2024 el API quedó inactiva. Desconozco si funciona actualmente.
+
+## Muy pero muy importante
+- Este es solo el código de la aplicación.
